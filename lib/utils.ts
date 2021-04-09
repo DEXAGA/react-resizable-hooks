@@ -1,9 +1,7 @@
-// @flow
-import React from 'react';
-import type {Element as ReactElement} from 'react';
+import * as React from 'react';
 
 // React.addons.cloneWithProps look-alike that merges style & className.
-export function cloneElement(element: ReactElement<any>, props: Object): ReactElement<any> {
+export function cloneElement(element: React.Element<any>, props: Object): React.Element<any> {
   if (props.style && element.props.style) {
     props.style = {...element.props.style, ...props.style};
   }

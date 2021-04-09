@@ -1,48 +1,33 @@
-const webpack = require('webpack');
-const path = require('path');
+"use strict";
+
+const path = require("path");
 
 module.exports = {
-  context: __dirname,
-  entry: {
-    test: "./examples/example.js",
-  },
+  // Set debugging source maps to be "inline" for
+  // simplicity and ease of use
+  devtool: "inline-source-map",
+
+  // The application entry point
+  entry: "./index.ts",
+
+  // Where to compile the bundle
+  // By default the output directory is `dist`
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "bundle.js",
-    sourceMapFilename: "[file].map",
-    library: 'ReactResizable',
-    libraryTarget: 'umd'
+    filename: "bundle.js"
   },
-  externals: {
-    'react': {
-      'commonjs': 'react',
-      'commonjs2': 'react',
-      'amd': 'react',
-      // React dep should be available as window.React, not window.react
-      'root': 'React'
-    },
-    'react-dom': {
-      'commonjs': 'react-dom',
-      'commonjs2': 'react-dom',
-      'amd': 'react-dom',
-      'root': 'ReactDOM'
-    }
-  },
+
+  // Supported file loaders
   module: {
     rules: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?cacheDirectory=true'},
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader"
+      }
     ]
   },
+
+  // File extensions to support resolving
   resolve: {
-    extensions: [".js"]
-  },
-  devServer: {
-    contentBase: __dirname,
-    compress: true,
-    port: 4003,
-  },
-  plugins: [
-    // Scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
-  ]
+    extensions: [".ts", ".tsx", ".js"]
+  }
 };

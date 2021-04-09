@@ -1,35 +1,41 @@
-import React from 'react';
+import * as React from 'react';
 import Resizable from '../lib/Resizable';
 import ResizableBox from '../lib/ResizableBox';
-import 'style-loader!css-loader!../css/styles.css';
-import 'style-loader!css-loader!./example.css';
+import '../css/styles.css';
+import './example.css';
 
-export default class ExampleLayout extends React.Component<{}, {width: number, height: number}> {
-  state = {
+const ExampleLayout = (props) => {
+  const [state, setState] = React.useState<{ absoluteTop: number; absoluteWidth: number; width: number; absoluteHeight: number; absoluteLeft: number; height: number }>({
     width: 200,
     height: 200,
     absoluteWidth: 200,
     absoluteHeight: 200,
     absoluteLeft: 0,
     absoluteTop: 0,
-  };
+  })
 
-  onResetClick = () => {
-    this.setState({ width: 200, height: 200, absoluteWidth: 200, absoluteHeight: 200 });
+  const onResetClick = () => {
+    setState(prevState => ({
+      ...prevState,
+      width: 200, height: 200, absoluteWidth: 200, absoluteHeight: 200
+    }));
   };
 
   // On top layout
-  onResize = (event, {element, size, handle}) => {
-    this.setState({width: size.width, height: size.height});
+  const onResize = (event, {element, size, handle}) => {
+    setState(prevState => ({
+      ...prevState,
+      width: size.width, height: size.height
+    }));
   };
 
   // On bottom layout. Used to resize the center element around its flex parent.
-  onResizeAbsolute = (event, {element, size, handle}) => {
-    this.setState((state) => {
-      let newLeft = state.absoluteLeft;
-      let newTop = state.absoluteTop;
-      const deltaHeight = size.height - state.absoluteHeight;
-      const deltaWidth = size.width - state.absoluteWidth;
+  const onResizeAbsolute = (event, {element, size, handle}) => {
+    setState(prevState => {
+      let newLeft = prevState.absoluteLeft;
+      let newTop = prevState.absoluteTop;
+      const deltaHeight = size.height - prevState.absoluteHeight;
+      const deltaWidth = size.width - prevState.absoluteWidth;
       if (handle[0] === 'n') {
         newTop -= deltaHeight;
       } else if (handle[0] === 's') {
@@ -42,6 +48,7 @@ export default class ExampleLayout extends React.Component<{}, {width: number, h
       }
 
       return {
+        ...prevState,
         absoluteWidth: size.width,
         absoluteHeight: size.height,
         absoluteLeft: newLeft,
@@ -50,16 +57,15 @@ export default class ExampleLayout extends React.Component<{}, {width: number, h
     });
   };
 
-  render() {
     return (
       <div>
 
         <h3>Statically Positioned Layout</h3>
         <div className="layoutRoot">
-          <Resizable className="box" height={this.state.height} width={this.state.width} onResize={this.onResize} resizeHandles={['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's']}>
-            <div className="box" style={{width: this.state.width + 'px', height: this.state.height + 'px'}}>
+          <Resizable className="box" height={state.height} width={state.width} onResize={onResize} resizeHandles={['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's']}>
+            <div className="box" style={{width: state.width + 'px', height: state.height + 'px'}}>
               <span className="text">{"Raw use of <Resizable> element. 200x200, all Resize Handles."}</span>
-              <button onClick={this.onResetClick} style={{'marginTop': '10px'}}>Reset this element's width/height</button>
+              <button onClick={onResetClick} style={{'marginTop': '10px'}}>Reset this element's width/height</button>
             </div>
           </Resizable>
           <ResizableBox className="box" width={200} height={200}>
@@ -122,16 +128,16 @@ export default class ExampleLayout extends React.Component<{}, {width: number, h
           {/* See implementation of `onResizeAbsolute` for how this can be moved around its container */}
           <Resizable
             className="box absolutely-positioned"
-            height={this.state.absoluteHeight}
-            width={this.state.absoluteWidth}
-            onResize={this.onResizeAbsolute}
+            height={state.absoluteHeight}
+            width={state.absoluteWidth}
+            onResize={onResizeAbsolute}
             resizeHandles={['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's']}
           >
             <div
               style={{
-                width: this.state.absoluteWidth,
-                height: this.state.absoluteHeight,
-                margin: `${this.state.absoluteTop} 0 0 ${this.state.absoluteLeft}`,
+                width: state.absoluteWidth,
+                height: state.absoluteHeight,
+                margin: `${state.absoluteTop} 0 0 ${state.absoluteLeft}`,
               }}
             >
               <span className="text">{"Raw use of <Resizable> element with controlled position. Resize and reposition in all directions."}</span>
@@ -166,17 +172,17 @@ export default class ExampleLayout extends React.Component<{}, {width: number, h
           {/* See implementation of `onResizeAbsolute` for how this can be moved around its container */}
           <Resizable
             className="box absolutely-positioned"
-            height={this.state.absoluteHeight}
-            width={this.state.absoluteWidth}
-            onResize={this.onResizeAbsolute}
+            height={state.absoluteHeight}
+            width={state.absoluteWidth}
+            onResize={onResizeAbsolute}
             transformScale={0.75}
             resizeHandles={['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's']}
           >
             <div
               style={{
-                width: this.state.absoluteWidth,
-                height: this.state.absoluteHeight,
-                margin: `${this.state.absoluteTop} 0 0 ${this.state.absoluteLeft}`,
+                width: state.absoluteWidth,
+                height: state.absoluteHeight,
+                margin: `${state.absoluteTop} 0 0 ${state.absoluteLeft}`,
               }}
             >
               <span className="text">{"Raw use of <Resizable> element with controlled position. Resize and reposition in all directions."}</span>
@@ -194,5 +200,6 @@ export default class ExampleLayout extends React.Component<{}, {width: number, h
 
       </div>
     );
-  }
 }
+
+export default ExampleLayout

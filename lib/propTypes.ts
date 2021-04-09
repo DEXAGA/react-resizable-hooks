@@ -1,46 +1,45 @@
-// @flow
-import PropTypes from 'prop-types';
+import * as React from "react";
+import * as PropTypes from 'prop-types';
 import {DraggableCore} from "react-draggable";
-import type {Element as ReactElement, ElementConfig} from 'react';
 
 export type Axis = 'both' | 'x' | 'y' | 'none';
 export type ResizeHandleAxis = 's' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne';
 export type ResizableState = void;
-export type ResizableBoxState = {|
+export type ResizableBoxState = {
   width: number, height: number,
   propsWidth: number, propsHeight: number
-|};
-export type DragCallbackData = {|
+};
+export type DragCallbackData = {
   node: HTMLElement,
   x: number, y: number,
   deltaX: number, deltaY: number,
   lastX: number, lastY: number
-|};
-export type ResizeCallbackData = {|
+};
+export type ResizeCallbackData = {
   node: HTMLElement,
-  size: {|width: number, height: number|},
+  size: { width: number, height: number },
   handle: ResizeHandleAxis
-|};
+};
 
 // <Resizable>
-export type Props = {|
+export type Props = {
   axis: Axis,
-  children: ReactElement<any>,
-  className?: ?string,
-  draggableOpts?: ?ElementConfig<typeof DraggableCore>,
+  children: React.Element<any>,
+  className?: string,
+  draggableOpts?: React.ElementConfig<typeof DraggableCore>,
   height: number,
-  handle?: ReactElement<any> | (resizeHandleAxis: ResizeHandleAxis) => ReactElement<any>,
+  handle?: React.Element<any> | ((resizeHandleAxis: ResizeHandleAxis) => React.Element<any>),
   handleSize: [number, number],
   lockAspectRatio: boolean,
   minConstraints: [number, number],
   maxConstraints: [number, number],
-  onResizeStop?: ?(e: SyntheticEvent<>, data: ResizeCallbackData) => any,
-  onResizeStart?: ?(e: SyntheticEvent<>, data: ResizeCallbackData) => any,
-  onResize?: ?(e: SyntheticEvent<>, data: ResizeCallbackData) => any,
+  onResizeStop?: (e: React.SyntheticEvent<any>, data: ResizeCallbackData) => any,
+  onResizeStart?: (e: React.SyntheticEvent<any>, data: ResizeCallbackData) => any,
+  onResize?: (e: React.SyntheticEvent<any>, data: ResizeCallbackData) => any,
   resizeHandles: ResizeHandleAxis[],
   transformScale: number,
   width: number,
-|};
+};
 
 export const resizableProps = {
   /*
