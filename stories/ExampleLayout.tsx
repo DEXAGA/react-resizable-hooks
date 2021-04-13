@@ -25,7 +25,8 @@ const ExampleLayout = (props) => {
   const onResize = (event, {element, size, handle}) => {
     setState(prevState => ({
       ...prevState,
-      width: size.width, height: size.height
+      width: size.width,
+      height: size.height,
     }));
   };
 

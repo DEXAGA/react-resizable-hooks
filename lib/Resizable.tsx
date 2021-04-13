@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {SyntheticEvent} from 'react';
-import {DraggableCore} from 'react-draggable';
+import {DraggableCore} from 'react-draggable-hooks';
 import {cloneElement} from './utils';
 import {DragCallbackData, ResizeHandleAxis} from "./propTypes";
 
@@ -125,7 +125,7 @@ const Resizable = (props) => {
       const shouldSkipCb = handlerName === 'onResize' && !dimensionsChanged;
       if (cb && !shouldSkipCb) {
         if (typeof e.persist === 'function') e.persist();
-        cb(e, {node, size: {width, height}, handle: axis});
+        cb(e, {node, size: {width, height, deltaX, deltaY}, handle: axis});
       }
 
       // Reset internal data

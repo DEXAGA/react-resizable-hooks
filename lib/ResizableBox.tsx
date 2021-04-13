@@ -8,12 +8,12 @@ import {ResizableBoxState, ResizeCallbackData} from "./propTypes";
 // care about that and will handle it in <Resizable> instead.
 // A <ResizableBox> can also have a `style` property.
 type ResizableBoxProps = React.ComponentProps<typeof Resizable> & {
-  style?: Object, children?: React.Element<any>
+  style?: Object, children?: React.ReactChildren
 };
 
 const ResizableBox = (props: ResizableBoxProps) => {
 
-  const [state, setState]: ResizableBoxState = React.useState({
+  const [state, setState] = React.useState<ResizableBoxState>({
     width: props.width,
     height: props.height,
     propsWidth: props.width,
@@ -42,7 +42,8 @@ const ResizableBox = (props: ResizableBoxProps) => {
       setState(prevState => ({
         ...prevState,
         ...size
-      }), () => props.onResize && props.onResize(e, data));
+      }));
+      props.onResize && props.onResize(e, data)
     } else {
       setState(prevState => {
         return {

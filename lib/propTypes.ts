@@ -24,11 +24,11 @@ export type ResizeCallbackData = {
 // <Resizable>
 export type Props = {
   axis: Axis,
-  children: React.Element<any>,
+  children: React.ReactChildren,
   className?: string,
-  draggableOpts?: React.ElementConfig<typeof DraggableCore>,
+  draggableOpts?: React.ComponentProps<typeof DraggableCore>,
   height: number,
-  handle?: React.Element<any> | ((resizeHandleAxis: ResizeHandleAxis) => React.Element<any>),
+  handle?: JSX.Element | ((resizeHandleAxis: ResizeHandleAxis) => JSX.Element),
   handleSize: [number, number],
   lockAspectRatio: boolean,
   minConstraints: [number, number],
